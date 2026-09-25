@@ -6,10 +6,15 @@ const URL =
 
 let formattedData = null;
 
+const formatData = (questionedData) => {
+  console.log(questionedData);
+};
+
 const fetchData = async () => {
   const response = await fetch(URL);
   const json = await response.json();
-  formattedData = json;
+  //   formattedData = json;
+  formatData(json.results);
   start();
 };
 
