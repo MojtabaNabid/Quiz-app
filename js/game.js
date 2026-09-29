@@ -6,6 +6,7 @@ const questionText = document.getElementById("question-text");
 const answerList = document.querySelectorAll(".answer-text");
 const scoreText = document.getElementById("score");
 const nextButton = document.getElementById("next-button");
+const finishButton = document.getElementById("finish-button");
 const questionNumber = document.getElementById("question-number");
 
 const CORRECT_BONUS = 10;
@@ -13,7 +14,7 @@ const CORRECT_BONUS = 10;
 const URL =
   "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple";
 
-let formattedData = null; 
+let formattedData = null;
 let questionIndex = 0;
 let correctAnswer = null;
 let score = 0;
@@ -48,8 +49,8 @@ const showQuestion = () => {
 
 const checkAnswer = (event, index) => {
   //   console.log(index);
-  if (!isAccepted) return;  // for managing the classes like "correct" and "incorrect"
-  isAccepted = false;  //assigning the false value to avoid user to select another button
+  if (!isAccepted) return; // for managing the classes like "correct" and "incorrect"
+  isAccepted = false; //assigning the false value to avoid user to select another button
   const isCorrect = index === correctAnswer ? true : false;
   if (isCorrect) {
     event.target.classList.add("correct");
@@ -64,18 +65,23 @@ const checkAnswer = (event, index) => {
 
 const nextHandler = () => {
   questionIndex++; // keep tracking of the question number
-  if (questionIndex < formattedData.length) { //if it reaches the 10th question
-    isAccepted = true;  // make this true to avoid user to choose another button
+  if (questionIndex < formattedData.length) {
+    //if it reaches the 10th question
+    isAccepted = true; // make this true to avoid user to choose another button
     showQuestion();
     removeClasses(); // to remove correct and incorrect classes for the next question
   } else {
-    localStorage.setItem("score",JSON.stringify(score)) // to save the score in local storage
-    window.location.assign("./end.html")
+    finishHandler();
   }
 };
 
 const removeClasses = () => {
   answerList.forEach((button) => (button.className = "answer-text"));
+};
+
+const finishHandler = () => {
+  localStorage.setItem("score", JSON.stringify(score)); // to save the score in local storage
+  window.location.assign("./end.html");
 };
 
 window.addEventListener("load", fetchData);
@@ -86,3 +92,4 @@ answerList.forEach((button, index) => {
 });
 
 nextButton.addEventListener("click", nextHandler);
+finishButton.addEventListener("click", finishHandler);
