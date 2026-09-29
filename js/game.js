@@ -13,7 +13,7 @@ const CORRECT_BONUS = 10;
 const URL =
   "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple";
 
-let formattedData = null;
+let formattedData = null; 
 let questionIndex = 0;
 let correctAnswer = null;
 let score = 0;
@@ -29,12 +29,12 @@ const fetchData = async () => {
 
 const start = () => {
   showQuestion(formattedData);
-  loader.style.display = "none";
-  container.style.display = "block";
+  loader.style.display = "none"; // hiding the loader
+  container.style.display = "block"; // showing the question box and other buttons
 };
 
 const showQuestion = () => {
-  questionNumber.innerText = questionIndex + 1;
+  questionNumber.innerText = questionIndex + 1; // for showing the question number at the top
   const { question, answers, correctAnswerIndex } =
     formattedData[questionIndex];
   //   console.log(question, answers, correctAnswerIndex);
@@ -48,8 +48,8 @@ const showQuestion = () => {
 
 const checkAnswer = (event, index) => {
   //   console.log(index);
-  if (!isAccepted) return;
-  isAccepted = false;
+  if (!isAccepted) return;  // for managing the classes like "correct" and "incorrect"
+  isAccepted = false;  //assigning the false value to avoid user to select another button
   const isCorrect = index === correctAnswer ? true : false;
   if (isCorrect) {
     event.target.classList.add("correct");
@@ -63,12 +63,13 @@ const checkAnswer = (event, index) => {
 };
 
 const nextHandler = () => {
-  questionIndex++;
-  if (questionIndex < formattedData.length) {
-    isAccepted = true;
+  questionIndex++; // keep tracking of the question number
+  if (questionIndex < formattedData.length) { //if it reaches the 10th question
+    isAccepted = true;  // make this true to avoid user to choose another button
     showQuestion();
-    removeClasses();
+    removeClasses(); // to remove correct and incorrect classes for the next question
   } else {
+    localStorage.setItem("score",JSON.stringify(score)) // to save the score in local storage
     window.location.assign("./end.html")
   }
 };
