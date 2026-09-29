@@ -5,6 +5,8 @@ const loader = document.getElementById("loader");
 const questionText = document.getElementById("question-text");
 const answerList = document.querySelectorAll(".answer-text");
 const scoreText = document.getElementById("score");
+const nextButton = document.getElementById("next-button");
+const questionNumber = document.getElementById("question-number");
 
 const CORRECT_BONUS = 10;
 
@@ -32,6 +34,7 @@ const start = () => {
 };
 
 const showQuestion = () => {
+  questionNumber.innerText = questionIndex + 1;
   const { question, answers, correctAnswerIndex } =
     formattedData[questionIndex];
   //   console.log(question, answers, correctAnswerIndex);
@@ -59,9 +62,26 @@ const checkAnswer = (event, index) => {
   }
 };
 
+const nextHandler = () => {
+  questionIndex++;
+  if (questionIndex < formattedData.length) {
+    isAccepted = true;
+    showQuestion();
+    removeClasses();
+  } else {
+    window.location.assign("./end.html")
+  }
+};
+
+const removeClasses = () => {
+  answerList.forEach((button) => (button.className = "answer-text"));
+};
+
 window.addEventListener("load", fetchData);
 answerList.forEach((button, index) => {
   button.addEventListener("click", (event) => checkAnswer(event, index)); // because we can not enter the checkAnswer function with parameter directly
   // if we type just checkAnswer(index) => it will be automatically implemented
   // because of this we have to use arrow function here
 });
+
+nextButton.addEventListener("click", nextHandler);
