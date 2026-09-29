@@ -4,13 +4,18 @@ const container = document.getElementById("container");
 const loader = document.getElementById("loader");
 const questionText = document.getElementById("question-text");
 const answerList = document.querySelectorAll(".answer-text");
-// console.log(answerList);
+const scoreText = document.getElementById("score");
+
+const CORRECT_BONUS = 10;
+
 const URL =
   "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple";
 
 let formattedData = null;
 let questionIndex = 0;
 let correctAnswer = null;
+let score = 0;
+let isAccepted = true;
 
 const fetchData = async () => {
   const response = await fetch(URL);
@@ -39,20 +44,24 @@ const showQuestion = () => {
 };
 
 const checkAnswer = (event, index) => {
-//   console.log(index);
-const isCorrect = index === correctAnswer ? true : false;
-if (isCorrect) {
+  //   console.log(index);
+  if (!isAccepted) return;
+  isAccepted = false;
+  const isCorrect = index === correctAnswer ? true : false;
+  if (isCorrect) {
     event.target.classList.add("correct");
-} else {
+    score += CORRECT_BONUS;
+    scoreText.innerText = score;
+  } else {
     event.target.classList.add("incorrect");
     // console.log(answerList[correctAnswer].classList)
     answerList[correctAnswer].classList.add("correct");
-}
+  }
 };
 
 window.addEventListener("load", fetchData);
 answerList.forEach((button, index) => {
   button.addEventListener("click", (event) => checkAnswer(event, index)); // because we can not enter the checkAnswer function with parameter directly
   // if we type just checkAnswer(index) => it will be automatically implemented
-  // because of this we have to use arrow function here 
+  // because of this we have to use arrow function here
 });
