@@ -116,3 +116,12 @@ h3 {
 .incorrect:hover {
     background-color: #fe6681;
 }
+
+#error {
+    display: none;
+    font-size: 2.5rem;
+    color: #6757d9;
+    padding: 20px;
+    text-align: center;
+    margin-top: 200px;
+}

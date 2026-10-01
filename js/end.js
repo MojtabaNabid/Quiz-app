@@ -19,7 +19,7 @@ const saveHandler = () => {
     highScores.splice(10); //we don't want more than 10 username score to save
     localStorage.setItem("highScores", JSON.stringify(highScores));
     // console.log(highScores);
-    // localStorage.removeItem("score")
+    localStorage.removeItem("score")
     window.location.assign("/"); //got to homepage
   }
 };
